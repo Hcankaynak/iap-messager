@@ -1,0 +1,7 @@
+version: "3.8"
+
+services:
+  iap-messager:
+    build: .
+    ports:
+      - "5000:8080"
