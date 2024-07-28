@@ -7,11 +7,19 @@ import (
 	"log"
 )
 
+/*
+PostgresDB struct
+This struct is used to connect to the Postgres database.
+*/
 type PostgresDB struct {
 	db  *gorm.DB
 	Dsn string
 }
 
+/*
+ConnectPostgres function
+Connecting to the Postgres database.
+*/
 func (p *PostgresDB) ConnectPostgres() {
 	log.Println("Connecting to Postgres...")
 
@@ -23,6 +31,11 @@ func (p *PostgresDB) ConnectPostgres() {
 	p.db = db
 }
 
+/*
+Migrate function
+Migrating the database.
+Delete all data from the messages table and insert dummy data.
+*/
 func (p *PostgresDB) Migrate() {
 	// make sure that the messages table is created
 	err := p.db.AutoMigrate(&messages.Message{})
@@ -42,4 +55,8 @@ func (p *PostgresDB) Migrate() {
 			log.Fatalf("Failed to insert message: %v", err)
 		}
 	}
+}
+
+func (p *PostgresDB) GetDB() (db *gorm.DB) {
+	return p.db
 }

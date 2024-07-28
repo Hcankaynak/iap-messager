@@ -5,8 +5,11 @@ import (
 	"log"
 )
 
+/*
+LoadEnv function
+Loading environment variables from .env file.
+*/
 func LoadEnv() {
-	// Set environment variables from .env file
 	log.Println("Loading environment variables...")
 
 	err := godotenv.Load()
