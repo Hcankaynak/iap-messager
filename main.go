@@ -1,13 +1,27 @@
 package main
 
 import (
-	"fmt"
+	"github.com/Hcankaynak/iap-messager/configs"
+	"github.com/Hcankaynak/iap-messager/database"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
+	"log"
 )
 
+type User struct {
+	gorm.Model
+	Name  string
+	Email string
+}
+
 func main() {
-	// Start the server
-	fmt.Println("Hello world!")
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	log.Println("Welcome iap-messager!! ")
+
+	configs.LoadEnv()
+
+	db := database.ConnectPostgres(configs.LoadPostgres().GetDSN())
+	database.Migrate(db, &User{})
 
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
