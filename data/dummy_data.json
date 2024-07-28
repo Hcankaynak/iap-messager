@@ -1,0 +1,42 @@
+[
+  {
+    "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum",
+    "phone_number": "1234567890",
+    "sending_status": false
+  },
+  {
+    "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem IpsumLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem IpsumLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsume",
+    "phone_number": "1234567890",
+    "sending_status": false
+  },
+  {
+    "content": "Hello, Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is a dummy message",
+    "phone_number": "1234567890",
+    "sending_status": false
+  },
+  {
+    "content": "Hello, this is Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem IpsumLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum dummy message",
+    "phone_number": "1234567890",
+    "sending_status": false
+  },
+  {
+    "content": "Hello, Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is a dummy message",
+    "phone_number": "1234567890",
+    "sending_status": false
+  },
+  {
+    "content": "Hello, this is Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum dummy message",
+    "phone_number": "1234567890",
+    "sending_status": false
+  },
+  {
+    "content": "Hello, this Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum a dummy message",
+    "phone_number": "1234567890",
+    "sending_status": true
+  },
+  {
+    "content": "Hello, this is a Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum message",
+    "phone_number": "1234567890",
+    "sending_status": true
+  }
+]
