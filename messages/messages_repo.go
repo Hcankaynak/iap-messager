@@ -23,7 +23,12 @@ func GenerateMessagesFromDummyData() []Message {
 	if err != nil {
 		panic(err)
 	}
-	defer jsonFile.Close()
+	defer func(jsonFile *os.File) {
+		err := jsonFile.Close()
+		if err != nil {
+			log.Fatalf("failed to close file: %v", err)
+		}
+	}(jsonFile)
 
 	byteValue, err := io.ReadAll(jsonFile)
 	if err != nil {
