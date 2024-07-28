@@ -1,7 +1,36 @@
-version: "3.8"
-
 services:
   iap-messager:
     build: .
     ports:
       - "5000:8080"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=app_user
+      - DB_PASSWORD=iap-messager123
+      - DB_NAME=iap-messager
+
+  postgres:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: iap-messager123
+      POSTGRES_DB: iap-messager
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+
+volumes:
+  postgres_data:
+  redis_data:
