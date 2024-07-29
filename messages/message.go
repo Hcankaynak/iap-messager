@@ -8,7 +8,7 @@ This struct is used to represent a message.
 */
 type Message struct {
 	gorm.Model
-	Content       string `json:"content"`
-	PhoneNumber   string `json:"phone_number"`
+	Content       string `json:"content" gorm:"size:500"`
+	PhoneNumber   string `json:"phone_number" gorm:"size:30"`
 	SendingStatus bool   `json:"sending_status"`
 }
