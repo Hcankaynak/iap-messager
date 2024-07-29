@@ -26,6 +26,19 @@ func (m *MessageRepository) FindSentMessages() ([]Message, error) {
 	return messages, err
 }
 
+func (m *MessageRepository) ConvertEntityToDTO(messages []Message) []MessageDTO {
+	var messageDTOs []MessageDTO
+	for _, message := range messages {
+		messageDTOs = append(messageDTOs, MessageDTO{
+			Content:       message.Content,
+			PhoneNumber:   message.PhoneNumber,
+			SendingStatus: message.SendingStatus,
+		})
+	}
+	return messageDTOs
+
+}
+
 /*
 GenerateMessagesFromDummyData function
 This function is used to generate messages from dummy data.

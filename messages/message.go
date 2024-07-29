@@ -12,3 +12,13 @@ type Message struct {
 	PhoneNumber   string `json:"phone_number" gorm:"size:30"`
 	SendingStatus bool   `json:"sending_status"`
 }
+
+/*
+MessageDTO struct
+This struct is used to represent a message data transfer object.
+*/
+type MessageDTO struct {
+	Content       string `json:"content" gorm:"size:500"`
+	PhoneNumber   string `json:"phone_number" gorm:"size:30"`
+	SendingStatus bool   `json:"sending_status"`
+}
