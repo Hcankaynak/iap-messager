@@ -3,10 +3,12 @@ package sender
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
+	"github.com/Hcankaynak/iap-messager/database"
+	"github.com/Hcankaynak/iap-messager/messages"
 	"io"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -21,13 +23,15 @@ MessageSender struct
 This struct is used to send messages.
 */
 type MessageSender struct {
-	start            bool
-	ticker           *time.Ticker
-	isInitialStarted bool
+	start             bool
+	ticker            *time.Ticker
+	isInitialStarted  bool
+	redisManager      *database.RedisManager
+	messageRepository *messages.MessageRepository
 }
 
-func New() MessageSender {
-	return MessageSender{start: false, ticker: time.NewTicker(DURATION), isInitialStarted: false}
+func New(redisManager *database.RedisManager, messageRepo *messages.MessageRepository) MessageSender {
+	return MessageSender{start: false, ticker: time.NewTicker(DURATION), isInitialStarted: false, redisManager: redisManager, messageRepository: messageRepo}
 }
 
 func (m *MessageSender) sendMessage(content string, phoneNumber string) error {
@@ -69,7 +73,7 @@ func (m *MessageSender) sendMessage(content string, phoneNumber string) error {
 	}(resp.Body)
 
 	// Log the response status
-	log.Printf("Response status: %s", resp.Status)
+	log.Printf("Response Body: %s", resp.Body)
 	return nil
 }
 
@@ -106,15 +110,33 @@ func (m *MessageSender) startTicker() {
 		go func() {
 			for range m.ticker.C {
 				if m.start {
-					// send messages
-					fmt.Println("Hello, World! ", time.Now())
-
-					//m.sendMessage("Hello, World!", "+1234567890")
+					m.findMessagesAndSend()
 				}
 			}
 		}()
 		m.isInitialStarted = true
 	} else {
 		log.Println("[DEBUG] Ticker is already started!")
+	}
+}
+
+/*
+findMessagesAndSend function
+This function is used to find messages and send them.
+*/
+func (m *MessageSender) findMessagesAndSend() {
+	messagesToBeSent, err := m.messageRepository.FindOldestTwoMessagesThatNotSent(m.redisManager.GetInProgressMessages().Items)
+	if err != nil {
+		log.Fatalf("Failed to find messages: %v", err)
+	}
+	for _, message := range messagesToBeSent {
+		m.redisManager.AddInProgressMessage(strconv.Itoa(int(message.ID)))
+		err := m.sendMessage(message.Content, message.PhoneNumber)
+		if err != nil {
+			log.Fatalf("Failed to send message: %v", err)
+		}
+		m.redisManager.SetItem(strconv.Itoa(int(message.ID)), message.ID)
+		m.messageRepository.SetMessageAsSent(message)
+		m.redisManager.RemoveFromInProgressMessages(strconv.Itoa(int(message.ID)))
 	}
 }
