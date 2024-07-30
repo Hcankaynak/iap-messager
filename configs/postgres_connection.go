@@ -1,13 +1,12 @@
 package configs
 
 import (
-	"log"
 	"os"
 )
 
 /*
 PostgresConnection struct
-Storing postgres connection informations.
+Storing postgres connection information.
 */
 type PostgresConnection struct {
 	host     string
@@ -37,6 +36,5 @@ Returning postgres connection string.
 */
 func (p PostgresConnection) GetDSN() string {
 	dsn := "host=" + p.host + " user=" + p.user + " password=" + p.password + " dbname=" + p.dbName + " port=" + p.port
-	log.Println("Postgres DSN:" + dsn)
 	return dsn
 }
