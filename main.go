@@ -29,6 +29,9 @@ func main() {
 	postgresDB := database.PostgresDB{Dsn: configs.LoadPostgres().GetDSN()}
 	postgresDB.ConnectPostgres()
 	postgresDB.Migrate()
+	redis := database.NewRedisManager(configs.LoadRedisConnectionDataFromEnv())
+	redis.ConnectRedis()
+	redis.CreateEmptyListForInProgress()
 
-	handlers.InitHandlers(postgresDB.GetDB())
+	handlers.InitHandlers(postgresDB.GetDB(), &redis)
 }
