@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/Hcankaynak/iap-messager/database"
 	"github.com/Hcankaynak/iap-messager/docs"
 	"github.com/Hcankaynak/iap-messager/messages"
 	"github.com/Hcankaynak/iap-messager/sender"
@@ -17,6 +18,7 @@ This struct is used to handle messages.
 type MessageHandler struct {
 	messageRepo   *messages.MessageRepository
 	messageSender *sender.MessageSender
+	redisManager  *database.RedisManager
 }
 
 /*
@@ -31,10 +33,10 @@ type AutomaticMessageSender struct {
 InitHandlers function
 This function is used to initialize handlers.
 */
-func InitHandlers(postgresDB *gorm.DB) {
+func InitHandlers(postgresDB *gorm.DB, redisManager *database.RedisManager) {
 	messageRepo := messages.MessageRepository{DB: postgresDB}
-	messageSender := sender.New()
-	messageHandler := MessageHandler{messageRepo: &messageRepo, messageSender: &messageSender}
+	messageSender := sender.New(redisManager, &messageRepo)
+	messageHandler := MessageHandler{messageRepo: &messageRepo, messageSender: &messageSender, redisManager: redisManager}
 	r := gin.Default()
 	docs.SwaggerInfo.BasePath = "/api/v1"
 	r.GET("/api/v1/sent-messages", messageHandler.getSentMessages)
@@ -51,7 +53,7 @@ func InitHandlers(postgresDB *gorm.DB) {
 // @Success 200 {object} []messages.MessageDTO
 // @Router /sent-messages [get]
 func (m *MessageHandler) getSentMessages(c *gin.Context) {
-	// search for sentMessages that SendingStatus is true.
+	// search for sentMessages that SentStatus is true.
 	messageEntities, err := m.messageRepo.FindSentMessages()
 	if err != nil {
 		c.JSON(500, gin.H{"error": "Failed to fetch sentMessages"})
