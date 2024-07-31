@@ -11,7 +11,7 @@ definitions:
         type: string
       phone_number:
         type: string
-      sending_status:
+      sent_status:
         type: boolean
     type: object
 host: localhost:8080

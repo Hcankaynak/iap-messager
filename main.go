@@ -5,6 +5,7 @@ import (
 	"github.com/Hcankaynak/iap-messager/database"
 	"github.com/Hcankaynak/iap-messager/handlers"
 	"log"
+	"time"
 )
 
 // @title IAP Messager API
@@ -24,7 +25,7 @@ import (
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	log.Println("Welcome iap-messager!! ")
-
+	time.Sleep(5 * time.Second)
 	configs.LoadEnv()
 	postgresDB := database.PostgresDB{Dsn: configs.LoadPostgres().GetDSN()}
 	postgresDB.ConnectPostgres()

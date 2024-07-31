@@ -22,7 +22,6 @@ Connecting to the Postgres database.
 */
 func (p *PostgresDB) ConnectPostgres() {
 	log.Println("Connecting to Postgres...")
-
 	db, err := gorm.Open(postgres.Open(p.Dsn), &gorm.Config{})
 	if err != nil {
 		panic(err)

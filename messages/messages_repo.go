@@ -45,7 +45,7 @@ This function is used to generate messages from dummy data.
 */
 func GenerateMessagesFromDummyData() []Message {
 	// opening dummy json file
-	jsonFile, err := os.Open("data/dummy_data.json")
+	jsonFile, err := os.Open("/app/data/dummy_data.json")
 	if err != nil {
 		panic(err)
 	}

@@ -100,7 +100,7 @@ const docTemplate = `{
                 "phone_number": {
                     "type": "string"
                 },
-                "sending_status": {
+                "sent_status": {
                     "type": "boolean"
                 }
             }

@@ -73,7 +73,7 @@ func (m *MessageSender) sendMessage(content string, phoneNumber string) error {
 	}(resp.Body)
 
 	// Log the response status
-	log.Printf("Response Body: %s", resp.Body)
+	log.Printf("Response Body: %v", resp.StatusCode)
 	return nil
 }
 
